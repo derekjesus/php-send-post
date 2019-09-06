@@ -1,0 +1,51 @@
+<?php
+
+
+class Cnx_Fe_Procesar
+{
+	public function render()
+	{
+	 
+		$getDatos = $_GET[ "data" ];
+		$postfields = array(
+			'data' => $object
+		);
+		/**/
+		$fields_string = http_build_query($postfields);
+		$postfields = array(
+		   'data' =>  $getDatos
+		);
+		$fields_string = http_build_query($postfields);
+		
+	$url = 'miurl';
+
+		$username = 'username';
+		$password = 'password';
+
+		//Initiate cURL.
+		$ch = curl_init($url);
+		//Specify the username and password using the CURLOPT_USERPWD option.
+		curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);  
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+		//Tell cURL to return the output as a string instead
+		//of dumping it to the browser.
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		//Execute the cURL request.
+		
+		$response = curl_exec($ch);
+		//Check for errors.
+		if(curl_errno($ch)){
+		    //If an error occured, throw an Exception.
+		    throw new Exception(curl_error($ch));
+		}
+		 
+		//Print out the response.
+		echo $response;
+		curl_close($ch); 
+ 	 
+	}
+	
+	
